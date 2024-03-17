@@ -5,6 +5,16 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require('../middlewares/verifyToken');
 const generateUsernameRole = require('../utils/generateUsernameRole');
 
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.send(users);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err.message);
+    }
+})
+
 router.post('/signup', async (req, res) => {
     try {
         const { username, role } = await generateUsernameRole();
