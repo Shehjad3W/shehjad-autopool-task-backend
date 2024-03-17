@@ -6,7 +6,6 @@ const cors = require('cors');
 require('dotenv').config();
 
 const userHandler = require('./src/routeHandler/userHandler');
-const houseHandler = require('./src/routeHandler/houseHandler');
 
 
 // middleware

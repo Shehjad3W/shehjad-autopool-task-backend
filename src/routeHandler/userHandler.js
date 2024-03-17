@@ -3,18 +3,20 @@ const router = express.Router();
 const User = require('../schemas/usersSchema');
 const jwt = require("jsonwebtoken");
 const verifyToken = require('../middlewares/verifyToken');
-const generateUniqueUsername = require('../utils/generateUniqueUsername');
+const generateUsernameRole = require('../utils/generateUsernameRole');
 
 router.post('/signup', async (req, res) => {
     try {
-        const username = await generateUniqueUsername();
-        const user = await User.create({ ...req.body, username });
+        const { username, role } = await generateUsernameRole();
+        const userData = { ...req.body, username, role };
+        console.log(userData);
+        const user = await User.create(userData);
         console.log(req.body);
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
         res.send({ token });
     } catch (err) {
-        console.log(err);
-        res.status(422).send(err);
+        console.log(err.message);
+        res.status(422).send(err.message);
     }
 })
 

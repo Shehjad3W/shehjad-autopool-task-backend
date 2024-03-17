@@ -7,13 +7,13 @@ const userSchema = new Schema({
         unique: true,
         required: true
     },
+    role: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: [true, "Email is required!"]
-    },
-    about: {
-        type: String,
-        required: false
     },
     password: {
         type: String,
