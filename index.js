@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        // "https://open-doors.surge.sh"
+        "https://shehjad-autopool-task-frontend.netlify.app"
     ],
     credentials: true
 }));

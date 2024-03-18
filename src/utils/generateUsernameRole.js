@@ -13,21 +13,21 @@ async function generateUsernameRole() {
     }
 
     // Give role
-    let role = 'A1';
-    if (count > 1 && count <= 4) {
-        role = 'A2underU1';
-    } else if (count > 4 && count <= 13) {
-        count -= 4;
-        if (count <= 3) {
-            role = 'A3underU2';
-        } else if (count <= 6) {
-            role = 'A3underU3';
-        } else if (count <= 9) {
-            role = 'A3underU4';
-        }
-    }
+    // let role = 'A1';
+    // if (count > 1 && count <= 4) {
+    //     role = 'A2underU1';
+    // } else if (count > 4 && count <= 13) {
+    //     count -= 4;
+    //     if (count <= 3) {
+    //         role = 'A3underU2';
+    //     } else if (count <= 6) {
+    //         role = 'A3underU3';
+    //     } else if (count <= 9) {
+    //         role = 'A3underU4';
+    //     }
+    // }
 
-    return { username, role };
+    return username;
 }
 
 module.exports = generateUsernameRole;

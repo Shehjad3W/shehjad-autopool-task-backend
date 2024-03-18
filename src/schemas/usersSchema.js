@@ -7,9 +7,16 @@ const userSchema = new Schema({
         unique: true,
         required: true
     },
-    role: {
-        type: String,
-        required: true
+    poolDetails: {
+        poolSerial: {
+            type: Number,
+            required: false,
+            unique: true
+        },
+        adminSerial: {
+            type: Number,
+            required: false,
+        }
     },
     email: {
         type: String,
