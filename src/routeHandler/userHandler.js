@@ -6,6 +6,17 @@ const verifyToken = require('../middlewares/verifyToken');
 const generateUsernameRole = require('../utils/generateUsernameRole');
 const generatePoolDetails = require('../utils/generatePoolDetails');
 
+// get all users
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.find().select("-password");
+        res.send(users);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send({ message: "Failed to get users!" });
+    }
+})
+
 // get pool users
 router.get('/poolUsers', async (req, res) => {
     try {
@@ -17,22 +28,31 @@ router.get('/poolUsers', async (req, res) => {
     }
 })
 
+
+// signup
 router.post('/signup', async (req, res) => {
     try {
+        const { email, password } = req.body;
+        console.log(req.body);
+        if (!email || !password)
+            return res.status(422).send({ error: "Email and password are required!" });
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(422).send({ error: "Email already exists!" });
+        }
         const username = await generateUsernameRole();
         const userData = { ...req.body, username };
-        console.log(userData);
         const user = await User.create(userData);
-        console.log(req.body);
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
         res.send({ token });
     } catch (err) {
-        console.log(err.message);
-        res.status(422).send(err.message);
+        console.error(err.message);
+        res.status(500).send({ error: "Internal Server Error" });
     }
-})
+});
 
 
+// login
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password)
@@ -51,6 +71,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
+// get user details
 router.get('/me', verifyToken, async (req, res) => {
     try {
         const token = req.headers.authorization.split(" ")[1];;
@@ -65,6 +86,7 @@ router.get('/me', verifyToken, async (req, res) => {
     }
 })
 
+// update user details
 router.put('/me', verifyToken, async (req, res) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
@@ -79,6 +101,7 @@ router.put('/me', verifyToken, async (req, res) => {
     }
 })
 
+// enter pool
 router.put('/enterPool', verifyToken, async (req, res) => {
     try {
         const token = req.headers.authorization.split(" ")[1];

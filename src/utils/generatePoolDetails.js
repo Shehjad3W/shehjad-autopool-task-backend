@@ -2,7 +2,7 @@ const User = require('../schemas/usersSchema');
 
 function getAdminSerial(poolSerial) {
     let adminSerial = Math.ceil(poolSerial / 3);
-    if (adminSerial === 0) adminSerial = 1;
+    if (poolSerial === 1) adminSerial = 0;
 
     if ((poolSerial - 1) % 3 === 0 && poolSerial > 1) {
         adminSerial--;
